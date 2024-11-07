@@ -1,0 +1,46 @@
+ python3.8 -m venv carla_env
+ 
+ source carla_env/bin/activate
+ 
+ sudo apt-get update && sudo apt-get install -y     python3.8     python3.8-distutils     python3.8-venv     python3-pip     libboost-all-dev     cmake     libtiff5     libjpeg8     tzdata     wget     libgeos-dev     libproj-dev     libgdal-dev     libgtk2.0-dev     pkg-config     build-essential     git     libavcodec-dev     libavformat-dev     libswscale-dev     libopencv-dev     python3-opencv
+ 
+ sudo apt-get update
+
+ 
+ #while installing libgtk2.0-dev, it had one package which held, and following commands will resolve this :
+ 
+ sudo apt-mark showhold 
+ #shows the list of holded packages 
+ for my case it showed libfontconfig1
+ 
+ sudo apt-mark unhold libfontconfig1
+ 
+ sudo apt-get install -y libfontconfig1-dev
+ 
+ sudo apt-get install -y libcairo2-dev libpango1.0-dev
+ 
+ sudo apt-get install -y libfontconfig1-dev libxft-dev
+ 
+ sudo apt-get install -y libgtk2.0-dev
+
+
+python3.8 -m pip install --upgrade pip
+
+pip3 install -r requirements.txt
+
+python3.8 -m pip install carla==0.9.15
+
+*************************************
+#THen running python scripts started to work :)
+#If any python dependenciess needed , then we need to manually install it using the requirements.txt file, update that !
+************************************
+
+
+************************************
+#Now, RUnning the Carla Server and running python script in this carla_env , will make it work
+************************************
+
+
+
+
+

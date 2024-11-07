@@ -1,0 +1,8 @@
+networkx
+numpy==1.18.4; python_version >= '3.0'
+distro
+Shapely==1.6.4.post2
+opencv-python-headless==4.5.1.48
+pandas
+pygame
+matplotlib

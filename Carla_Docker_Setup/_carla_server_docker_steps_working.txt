@@ -1,0 +1,85 @@
+https://chatgpt.com/share/672b7117-6a68-800f-8718-7d865410f992
+
+THis chatgpt chat has informatuion of the commands that is used to set NVIDIA container runtime and docker run command :
+
+
+https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html
+Nvidia docs page, where it sets up the GPU drivers and docker runtime for the carla docker to communicate with nvidia GPUs properly.
+
+#########################################
+NVIDIA - runtime setup commands : 
+##########################################
+
+--> nVIDIA container toolkit installation and keyrings setup: 
+
+
+    1.  curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg \
+  && curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | \
+    sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | \
+    sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
+    
+    2. sudo sed -i -e '/experimental/ s/^#//g' /etc/apt/sources.list.d/nvidia-container-toolkit.list
+    
+    3.sudo apt-get update
+    
+    4. sudo apt-get install -y nvidia-container-toolkit
+    
+    
+----> Configuring DOcker runtime
+
+    5. sudo nvidia-ctk runtime configure --runtime=docker
+    
+    6.  sudo systemctl restart docker
+    
+    
+########################################
+
+
+After this setup, Hope you have pulled the CARLA docker image successfully : 
+
+
+    1. docker pull carlasim/carla:0.9.15
+   
+   after pulling, docker images : should have like this :  
+   carlasim/carla               0.9.15                    dc3cf29666d6   12 months ago   21.1GB
+   
+########################################
+
+
+
+DOCKER RUN COMMAND : 
+
+
+
+docker run -it --rm \
+  --runtime=nvidia \
+  --gpus all \
+  --net=host \
+  --privileged \
+  --env DISPLAY=$DISPLAY \
+  --env NVIDIA_VISIBLE_DEVICES=all \
+  --env NVIDIA_DRIVER_CAPABILITIES=all \
+  --env QT_X11_NO_MITSHM=1 \
+  --env SDL_VIDEODRIVER=x11 \
+  --env USER=$USER \
+  --env UID=$UID \
+  --volume $HOME/.Xauthority:/root/.Xauthority:rw \
+  --volume /tmp/.X11-unix:/tmp/.X11-unix \
+  --volume /etc/group:/etc/group:ro \
+  --volume /etc/passwd:/etc/passwd:ro \
+  --volume /etc/shadow:/etc/shadow:ro \
+  --volume /etc/sudoers:/etc/sudoers:ro \
+  --volume /etc/sudoers.d:/etc/sudoers.d:ro \
+  --volume /home/$USER:/home/$USER:rw \
+  carlasim/carla:0.9.15 \
+  bash ./CarlaUE4.sh -vulkan
+
+
+THis will run Carla Server in a DOcker, you should see the server window. Now , in a virtual environment , after installing the necessary dependencies, you can able to run scripts that communicate with this server. 
+
+
+
+##########  Here you goo...................
+
+
+   
